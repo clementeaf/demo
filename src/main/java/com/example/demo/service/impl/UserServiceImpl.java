@@ -32,11 +32,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(Long id, User user) {
-        if (!userRepository.existsById(id)) {
+        Optional<User> existingUserOpt = userRepository.findById(id);
+        if (!existingUserOpt.isPresent()) {
             throw new RuntimeException("User not found with id: " + id);
         }
-        user.setId(id);
-        return userRepository.save(user);
+        
+        User existingUser = existingUserOpt.get();
+        
+        if (user.getName() != null && !user.getName().trim().isEmpty()) {
+            existingUser.setName(user.getName());
+        }
+        if (user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+            existingUser.setPassword(user.getPassword());
+        }
+        
+        return userRepository.save(existingUser);
     }
 
     @Override
@@ -45,5 +55,10 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByNameAndPassword(String name, String password) {
+        return userRepository.findByNameAndPassword(name, password);
     }
 }

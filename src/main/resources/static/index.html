@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Backoffice Frontend</title>
+    <meta name="description" content="Backoffice management application">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/" />
+    <meta name="backoffice-frontend/config/environment" content="%7B%22modulePrefix%22%3A%22backoffice-frontend%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22backoffice-frontend%22%2C%22version%22%3A%220.0.0%22%7D%2C%22exportApplicationGlobal%22%3Atrue%7D" />
+
+    <link integrity="" rel="stylesheet" href="/assets/vendor.css">
+    <link integrity="" rel="stylesheet" href="/assets/backoffice-frontend.css">
+</head>
+<body>
+    <div id="ember-app">
+        <!-- Loading indicator -->
+        <div class="loading-container">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Cargando aplicación...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/vendor.js"></script>
+    <script src="/assets/backoffice-frontend.js"></script>
+
+    <script>
+        // Basic error handling
+        window.addEventListener('error', function(e) {
+            console.error('Frontend error:', e.error);
+        });
+
+        // Check if Ember app loaded successfully
+        setTimeout(function() {
+            if (!window.App) {
+                document.getElementById('ember-app').innerHTML = 
+                    '<div class="error-container">' +
+                    '<h2>Error cargando la aplicación</h2>' +
+                    '<p>La aplicación frontend no se pudo cargar correctamente.</p>' +
+                    '<p>Por favor, verifique que todos los archivos estén presentes.</p>' +
+                    '</div>';
+            }
+        }, 5000);
+    </script>
+
+    <style>
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .loading-spinner {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e3e3e3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            color: #721c24;
+            text-align: center;
+        }
+    </style>
+</body>
+</html>

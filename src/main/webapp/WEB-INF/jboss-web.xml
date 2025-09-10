@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web xmlns="http://www.jboss.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee 
+           http://www.jboss.org/schema/jbossas/jboss-web_14_0.xsd"
+           version="14.0">
+
+    <!-- Context root for the application -->
+    <context-root>/demo</context-root>
+    
+    <!-- Class loading configuration -->
+    <class-loading>
+        <module-loading>
+            <module name="org.apache.commons.logging" />
+            <module name="javax.annotation.api" />
+            <module name="javax.servlet.api" />
+        </module-loading>
+    </class-loading>
+    
+    <!-- Security domain (optional) -->
+    <!-- 
+    <security-domain>java:/jaas/other</security-domain>
+    -->
+    
+    <!-- JBoss specific configuration -->
+    <enable-websockets>true</enable-websockets>
+    
+    <!-- Disable file system access for security -->
+    <disable-audit>false</disable-audit>
+
+</jboss-web>

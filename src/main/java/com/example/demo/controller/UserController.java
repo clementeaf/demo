@@ -52,7 +52,11 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        if (id == null || id <= 0 || user == null || user.getName() == null || user.getName().trim().isEmpty()) {
+        if (id == null || id <= 0 || user == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if ((user.getName() == null || user.getName().trim().isEmpty()) && 
+            (user.getPassword() == null || user.getPassword().trim().isEmpty())) {
             return ResponseEntity.badRequest().build();
         }
         try {
@@ -75,6 +79,24 @@ public class UserController {
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User loginRequest) {
+        if (loginRequest == null || loginRequest.getName() == null || loginRequest.getPassword() == null ||
+            loginRequest.getName().trim().isEmpty() || loginRequest.getPassword().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            User user = userService.findByNameAndPassword(loginRequest.getName(), loginRequest.getPassword());
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
